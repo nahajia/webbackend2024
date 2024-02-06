@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Feb 05. 20:23
--- Kiszolgáló verziója: 10.4.11-MariaDB
--- PHP verzió: 7.4.1
+-- Létrehozás ideje: 2024. Feb 06. 19:24
+-- Kiszolgáló verziója: 10.4.28-MariaDB
+-- PHP verzió: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `testdb_auth`
+-- Adatbázis: `web_zarodoga`
 --
 CREATE DATABASE IF NOT EXISTS `web_zarodoga` DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
 USE `web_zarodoga`;
@@ -32,10 +31,10 @@ USE `web_zarodoga`;
 
 CREATE TABLE `film` (
   `film_id` int(11) NOT NULL,
-  `film_cim` varchar(50) COLLATE utf8_hungarian_ci NOT NULL,
+  `film_cim` varchar(50) NOT NULL,
   `film_datum` date NOT NULL,
   `film_hossz` int(11) NOT NULL,
-  `film_kep` varchar(50) COLLATE utf8_hungarian_ci NOT NULL
+  `film_kep` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
@@ -45,37 +44,7 @@ CREATE TABLE `film` (
 INSERT INTO `film` (`film_id`, `film_cim`, `film_datum`, `film_hossz`, `film_kep`) VALUES
 (1, 'Wandavision', '0000-00-00', 0, '1.png'),
 (2, 'Loki', '0000-00-00', 0, '2.png'),
-(3, 'Falcon and the winter soldier', '0000-00-00', 0, '3.png'),
-(4, 'proba', '0000-00-00', 0, 'proba'),
-(5, '1', '0000-00-00', 0, 'proba'),
-(6, '1', '0000-00-00', 0, 'proba'),
-(7, '1', '0000-00-00', 0, 'proba'),
-(8, '2', '0000-00-00', 0, 'proba'),
-(9, '1', '0000-00-00', 0, 'proba'),
-(10, '1', '0000-00-00', 0, 'proba'),
-(11, 'Wednesday', '0000-00-00', 0, 'w.png'),
-(12, 'Wednesday', '2022-12-07', 120, 'w.png'),
-(13, 'Halálos iramban', '2022-12-07', 120, 'w.png'),
-(14, 'Halálos iramban', '2022-12-07', 120, 'w.png'),
-(15, 'Halálos iramban', '2022-12-07', 130, 'w.png'),
-(16, 'Avatar', '2022-12-07', 180, 'w.png'),
-(38, 'Ttt', '2023-01-01', 0, 'w.png'),
-(39, 'Kkk', '2023-01-01', 1, 'w.png'),
-(40, 'Kkk', '2023-01-01', 1, 'w.png'),
-(41, 'Z', '2023-01-01', 1, 'w.png'),
-(42, 'A', '2023-01-01', 0, 'w.png'),
-(43, 'Bb', '2023-01-01', 0, 'w.png'),
-(44, 'Cc', '2023-01-01', 0, 'w.png'),
-(45, 'D', '2023-01-01', 0, 'w.png'),
-(46, 'Ee', '2023-01-01', 0, 'w.png'),
-(47, 'Fff', '2023-01-01', 0, 'w.png'),
-(48, 'Z', '2023-01-01', 0, 'w.png'),
-(49, 'Uuu', '2023-01-01', 0, 'w.png'),
-(50, 'Ui', '2023-01-01', 0, 'w.png'),
-(51, 'Uiiiu', '2023-01-01', 0, 'w.png'),
-(52, 'O', '2023-01-01', 0, 'w.png'),
-(53, 'W', '2023-01-01', 0, 'w.png'),
-(54, 'Wp', '2023-01-01', 0, 'w.png');
+(3, 'Falcon and the winter soldier', '0000-00-00', 0, '3.png');
 
 -- --------------------------------------------------------
 
@@ -85,7 +54,7 @@ INSERT INTO `film` (`film_id`, `film_cim`, `film_datum`, `film_hossz`, `film_kep
 
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
@@ -102,14 +71,41 @@ INSERT INTO `roles` (`id`, `name`, `createdAt`, `updatedAt`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `szavazat`
+--
+
+CREATE TABLE `szavazat` (
+  `szavazat_id` int(11) NOT NULL,
+  `szavazat_film` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `szavazat`
+--
+
+INSERT INTO `szavazat` (`szavazat_id`, `szavazat_film`) VALUES
+(1, 1),
+(2, 2),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 2),
+(8, 1),
+(9, 1),
+(10, 3);
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `users`
 --
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `username` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
@@ -121,7 +117,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `createdAt`, `updatedAt`) VALUES
 (1, 'user', 'user', '$2a$08$gXM4pyuhZFlC72PeAwxrUOR0uA31/d2PdgnHP35JGV.0bQNiZBatS', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (2, 'mod', 'mod', '$2a$08$gXM4pyuhZFlC72PeAwxrUOR0uA31/d2PdgnHP35JGV.0bQNiZBatS', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(3, 'admin', 'admin', '$2a$08$97Ze1/hXfOX44WdC62Rq8uRkog9HYC1HukRX8eld2ZEKPyenM5v.G', '2020-08-02 15:03:59', '2020-08-02 15:03:59');
+(3, 'admin', 'admin', '$2a$08$97Ze1/hXfOX44WdC62Rq8uRkog9HYC1HukRX8eld2ZEKPyenM5v.G', '2020-08-02 15:03:59', '2020-08-02 15:03:59'),
+(14, 'valaki', 'valaki@gmail.com', '$2a$08$2I9RHv7Yt6ljopICRKZq9.c/PzU.jDQU2zqtSD16A3kjQjbBuhw1a', '2024-02-06 17:37:10', '2024-02-06 17:37:10');
 
 -- --------------------------------------------------------
 
@@ -143,6 +140,7 @@ CREATE TABLE `user_roles` (
 INSERT INTO `user_roles` (`createdAt`, `updatedAt`, `roleId`, `userId`) VALUES
 ('0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1),
 ('2020-08-02 15:04:00', '2020-08-02 15:04:00', 1, 3),
+('2024-02-06 17:37:10', '2024-02-06 17:37:10', 1, 14),
 ('0000-00-00 00:00:00', '0000-00-00 00:00:00', 2, 2),
 ('0000-00-00 00:00:00', '0000-00-00 00:00:00', 2, 3),
 ('2020-08-02 15:04:00', '2020-08-02 15:04:00', 3, 3);
@@ -162,6 +160,12 @@ ALTER TABLE `film`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
+
+--
+-- A tábla indexei `szavazat`
+--
+ALTER TABLE `szavazat`
+  ADD PRIMARY KEY (`szavazat_id`);
 
 --
 -- A tábla indexei `users`
@@ -187,10 +191,16 @@ ALTER TABLE `film`
   MODIFY `film_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
+-- AUTO_INCREMENT a táblához `szavazat`
+--
+ALTER TABLE `szavazat`
+  MODIFY `szavazat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Megkötések a kiírt táblákhoz
